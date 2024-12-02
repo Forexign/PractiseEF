@@ -1,0 +1,62 @@
+﻿@model List<Student>
+
+
+<a asp-action="EnrollNewStudent" class="btn btn-primary">Enroll New Student</a>"
+
+@{
+    ViewBag.Title = "Select Students By Course";
+}
+
+<form asp-action="ChangeCourse" method="post" id="courseForm">
+    <div>
+        <label class="form-label">Select Course</label>
+        <select class="form-control" id="courseSelect" name="courseId">
+            <option value="">Select A Course</option>
+            @foreach (var course in ViewBag.Courses)
+            {
+                if (ViewBag.SelectedCourse != null && ViewBag.SelectedCourse == course.Id)
+                {
+                    <option value="@course.Id" selected>@course.Name</option>
+                }
+                else
+                {
+                    <option value="@course.Id">@course.Name</option>
+                }
+            }
+        </select>
+    </div>
+    <script>
+        var selectElement = document.getElementById("courseSelect");
+        selectElement.addEventListener("change", function () {
+            document.getElementById("courseForm").submit();
+        });
+    </script>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Finanical Aid</th>
+            <th>Enroll In class</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var student in Model)
+        {
+            <tr>
+                <td>@student.Name</td>
+                <td>@student.FinancialAidStatus</td>
+                <td>
+                    <a asp-action="ChangeEnrollment" asp-controller="Student" class="btn btn-danger" asp-route-id="@student.Id">Edit Enrolled Classes</a>
+                </td>
+                <td>
+                    <a asp-action="DeleteStudent" asp-controller="Student" class="btn btn-danger" asp-route-id="@student.Id">Delete</a>
+                </td>
+            </tr>
+        }
+</table>
+
+
+<a asp-action="Index" asp-controller="Course" class="btn btn-info">Go To Courses</a>

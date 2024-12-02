@@ -1,0 +1,30 @@
+﻿@model Student
+
+@{
+    ViewBag.Title = "Enroll New Student";
+}
+
+<form asp-action="EnrollNewStudent" method="post">
+    <div class="form-group">
+        <label asp-for="Name" class="form-label">Student Name</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    @foreach (var course in ViewBag.Courses as List<Course>)
+    {
+        <div class="form-check">
+            <input type="checkbox" class="form-check-input" itemid="@course.Id" name="enrolledCourses" value="@course.Id" />
+            <label class="form-check-label" for="@course.Id">@course.Name</label>
+
+        </div>
+    }
+    <div class="form-group">
+        <label asp-for="FinancialAidStatus" class="form-label">Financial Aid Status</label>
+        <select asp-for="FinancialAidStatus" class="form-control">
+            <option value="Passed">Accepted</option>
+            <option value="Failed">Denied</option>
+        </select>
+    <input type="hidden" asp-for="Id" />
+    
+    <button type="submit" class="btn btn-primary">Enroll Student</button>
+</form>

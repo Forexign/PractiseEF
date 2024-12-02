@@ -1,0 +1,27 @@
+﻿@model Student
+
+@{
+    ViewBag.Title = "Change Enrollment";
+}
+
+
+<h1>Change Enrollment for @Model.Id</h1>
+
+<form asp-action="ModifyStudentEnrolledCourses" method="post">
+    @foreach (var course in ViewBag.Courses)
+    {
+        <div class="form-check">
+            @{
+                bool isChecked = Model.Courses.Any(c => c.Id == course.Id);
+            }
+            <input type="checkbox" class="form-check-input" id="@course.Id" name="enrolledCourses" value="@course.Id"
+            @(isChecked ? "checked" : "") />
+            <label class="form-check-label" for="@course.Id">@course.Name</label>
+           </div>
+    }
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="FinancialAidStatus" />
+    <input type="hidden" asp-for="Courses" />
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
